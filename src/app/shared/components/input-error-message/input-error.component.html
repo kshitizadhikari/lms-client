@@ -5,6 +5,6 @@
   <div *ngIf="ctrl?.hasError('minLength')">{{name}} must be at least {{minLength}} characters long</div>
   <div *ngIf="ctrl?.hasError('maxLength')">{{name}} must be be less than {{maxLength}} characters</div>
   <div *ngIf="ctrl?.hasError('email')">Invalid Email</div>
-  <div *ngIf="ctrl?.hasError('notEqual')">Values do not match</div>
+  <div *ngIf="ctrl?.hasError('pattern')">Invalid</div>
   <div *ngIf="errMsg !== ''">{{errMsg}}</div>
 </div>
