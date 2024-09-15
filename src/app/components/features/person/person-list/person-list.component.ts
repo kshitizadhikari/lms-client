@@ -76,6 +76,14 @@ export class PersonListComponent implements OnInit, OnDestroy {
     });
   }
 
+  toggleClickedRow(row: any) {
+    if (this.clickedRows.has(row)) {
+      this.clickedRows.delete(row);
+      return;
+    }
+    this.clickedRows.add(row);
+  }
+
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
