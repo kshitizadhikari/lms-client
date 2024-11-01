@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CommonModule, NgClass, NgIf} from "@angular/common";
 import {AbstractControl} from "@angular/forms";
 
@@ -13,7 +13,7 @@ import {AbstractControl} from "@angular/forms";
   templateUrl: './input-error.component.html',
   styleUrl: './input-error.component.css'
 })
-export class InputErrorComponent {
+export class InputErrorComponent implements OnInit{
  @Input() ctrl: AbstractControl | undefined | null;
  @Input() name = '';
  @Input() min = 0;
@@ -25,4 +25,7 @@ export class InputErrorComponent {
  @Input() greaterThan = 0;
 
  constructor() {}
+
+  ngOnInit(): void {
+  }
 }

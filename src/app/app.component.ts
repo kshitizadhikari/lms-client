@@ -13,5 +13,4 @@ import {FooterComponent} from "./components/features/footer/footer.component";
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'LMS-client';
 }

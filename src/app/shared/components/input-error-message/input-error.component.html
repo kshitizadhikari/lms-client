@@ -1,10 +1,10 @@
-<div *ngIf="ctrl?.invalid && (!ctrl?.untouched || ctrl?.dirty)" class="text-red-600 italic text-xs">
-  <div *ngIf="ctrl?.hasError('required')">{{name}} is required </div>
-  <div *ngIf="ctrl?.hasError('min')">{{name}} must be greater than or equal to {{min}}</div>
-  <div *ngIf="ctrl?.hasError('max')">{{name}} must be less than or equal to {{max}}</div>
-  <div *ngIf="ctrl?.hasError('minLength')">{{name}} must be at least {{minLength}} characters long</div>
-  <div *ngIf="ctrl?.hasError('maxLength')">{{name}} must be be less than {{maxLength}} characters</div>
-  <div *ngIf="ctrl?.hasError('email')">Invalid Email</div>
-  <div *ngIf="ctrl?.hasError('pattern')">Invalid</div>
-  <div *ngIf="errMsg !== ''">{{errMsg}}</div>
+<div *ngIf="ctrl?.invalid && (!ctrl?.untouched || ctrl?.dirty)" class="text-xs text-red-600">
+  <span *ngIf="ctrl?.hasError('required')">{{name}} is required </span>
+  <span *ngIf="ctrl?.hasError('min')">{{name}} must be greater than or equal to {{min}}</span>
+  <span *ngIf="ctrl?.hasError('max')">{{name}} must be less than or equal to {{max}}</span>
+  <span *ngIf="ctrl?.hasError('minLength')">{{name}} must be at least {{minLength}} characters long</span>
+  <span *ngIf="ctrl?.hasError('maxLength')">{{name}} must be be less than {{maxLength}} characters</span>
+  <span *ngIf="ctrl?.hasError('email')">Invalid Email</span>
+  <span *ngIf="ctrl?.hasError('pattern')">Invalid</span>
+  <span *ngIf="errMsg !== ''">{{errMsg}}</span>
 </div>
