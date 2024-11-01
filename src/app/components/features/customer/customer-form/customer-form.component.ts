@@ -24,7 +24,7 @@ import {NgClass} from "@angular/common";
 export class CustomerFormComponent implements OnInit, OnDestroy {
   public sub: Subscription = new Subscription();
   protected readonly ACTION_TYPES = ACTION_TYPES;
-  public ACTION_TYPE: string;
+  public action_type: string;
   public customer: CustomerModel = {} as CustomerModel;
   public form!: FormGroup;
   public buttonText: string = 'Add';
@@ -37,18 +37,18 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
     @Inject(MAT_DIALOG_DATA) public data: { action_type: string, customer: CustomerModel },
     private dialogRef: MatDialogRef<CustomerFormComponent>
   ) {
-    this.ACTION_TYPE = data.action_type;
+    this.action_type = data.action_type;
     this.customer = data.customer || {} as CustomerModel;
 
     this.form = this.fb.group({
       id: [this.customer?.id || null],
       firstName: [this.customer?.firstName || '', [Validators.required]],
       lastName: [this.customer?.lastName || '', [Validators.required]],
-      email: [this.customer?.email || '', [Validators.required]],
+      email: [this.customer?.email || '', [Validators.required, Validators.email]],
       phone: [this.customer?.phone || '', [Validators.required]]
     });
 
-    if (this.ACTION_TYPE == this.ACTION_TYPES.EDIT) {
+    if (this.action_type == this.ACTION_TYPES.EDIT) {
       this.buttonText = 'Update';
     }
   }
@@ -90,7 +90,35 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit(): void {
-    console.log(this.form.value);
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.snackbarService.error('Invalid Form Values');
+      return;
+    }
+
+    const formData = this.form.getRawValue();
+    debugger
+    if (this.action_type == ACTION_TYPES.NEW) {
+      this.customerService.create(formData).subscribe({
+        next: (res: CustomerModel): void => {
+          this.snackbarService.success('Customer created successfully');
+          this.dialogRef.close(res);
+        },
+        error: (err): void => {
+          console.log('Error creating customer: ', err);
+        }
+      });
+    } else {
+      this.customerService.update(formData).subscribe({
+        next: (res: CustomerModel): void => {
+          this.snackbarService.success('Customer updated successfully');
+          this.dialogRef.close(res);
+        },
+        error: (err): void => {
+          console.log('Error updating customer: ', err);
+        }
+      })
+    }
   }
 
   ngOnDestroy(): void {
