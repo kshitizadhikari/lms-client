@@ -4,11 +4,12 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import {HomeComponent} from "../home/home.component";
+import {NavComponent} from "./nav/nav.component";
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, RouterLinkActive],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterLink, RouterLinkActive, NavComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })

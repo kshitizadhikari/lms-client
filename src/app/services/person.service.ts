@@ -5,7 +5,6 @@ import {PersonModel} from '../models/person.model';
 import {environment} from '../../environments/environment.development';
 import {PersonFormComponent} from "../components/features/person/person-form/person-form.component";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {SnackbarService} from "../shared/services/snackbar.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +14,6 @@ export class PersonService {
   private url = `${this.apiUrl}/person`;
   private http = inject(HttpClient);
   private dialogService = inject(MatDialog);
-  private snackbarService = inject(SnackbarService);
 
   openPersonForm(action_type: any, personData?: PersonModel): MatDialogRef<PersonFormComponent> {
     return this.dialogService.open(PersonFormComponent, {
