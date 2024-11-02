@@ -1,1 +1,62 @@
-<p>customer-list works!</p>
+<div class="flex justify-between">
+  <div class="p-2">
+    <input
+      class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      type="text" placeholder="Enter name...">
+  </div>
+  <div class="p-2">
+    <app-button
+      icon="add"
+      (click)="openCustomerForm(ACTION_TYPES.NEW)"
+      text="Add Customer">
+    </app-button>
+  </div>
+</div>
+
+<div class="mt-5">
+  <h5>Customer List</h5>
+  <table mat-table [dataSource]="customers" class="mat-elevation-z8 table">
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="firstname">
+      <th mat-header-cell *matHeaderCellDef>First Name</th>
+      <td mat-cell *matCellDef="let customer">{{ customer.firstName }}</td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="lastname">
+      <th mat-header-cell *matHeaderCellDef>Last Name</th>
+      <td mat-cell *matCellDef="let customer">{{ customer.lastName }}</td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let customer">{{ customer.email }}</td>
+    </ng-container>
+
+    <!-- Phone Column -->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef>Phone</th>
+      <td mat-cell *matCellDef="let customer">{{ customer.phone }}</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let customer">
+        <button mat-button (click)="openCustomerForm(ACTION_TYPES.EDIT, customer)">Edit</button> |
+        <button mat-button (click)="deleteCustomer(customer.id)">Delete</button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      (click)="toggleClickedRow(row)"
+      [class.row-is-clicked]="clickedRows.has(row)"
+      *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+</div>

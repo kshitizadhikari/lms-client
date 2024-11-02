@@ -1,13 +1,13 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
-import {InputErrorComponent} from "../../../../shared/components/input-error-message/input-error.component";
+import {Component, EventEmitter, Inject, OnDestroy, OnInit, Output} from '@angular/core';
+import {InputErrorComponent} from "../../../../../shared/components/input-error-message/input-error.component";
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
-import {UtilService} from "../../../../shared/services/util.service";
-import {SnackbarService} from "../../../../shared/services/snackbar.service";
+import {UtilService} from "../../../../../shared/services/util.service";
+import {SnackbarService} from "../../../../../shared/services/snackbar.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ACTION_TYPES} from '../../../../shared/utilities/constants';
-import {CustomerService} from "../../../../services/customer.service";
-import {CustomerModel} from "../../../../models/customer.model";
+import {ACTION_TYPES} from '../../../../../shared/utilities/constants';
+import {CustomerService} from "../../../../../services/customer.service";
+import {CustomerModel} from "../../../../../models/customer.model";
 import {NgClass} from "@angular/common";
 
 @Component({
@@ -22,6 +22,9 @@ import {NgClass} from "@angular/common";
   styleUrl: './customer-form.component.css'
 })
 export class CustomerFormComponent implements OnInit, OnDestroy {
+
+  @Output() customerEmitter = new EventEmitter();
+
   public sub: Subscription = new Subscription();
   protected readonly ACTION_TYPES = ACTION_TYPES;
   public action_type: string;
@@ -32,7 +35,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private utilService: UtilService,
-    private customerService: CustomerService,
+    private service: CustomerService,
     private snackbarService: SnackbarService,
     @Inject(MAT_DIALOG_DATA) public data: { action_type: string, customer: CustomerModel },
     private dialogRef: MatDialogRef<CustomerFormComponent>
@@ -54,7 +57,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
+    console.log(this.customer)
   }
 
   getFormControl(ctrlName: string): AbstractControl {
@@ -97,9 +100,9 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
     }
 
     const formData = this.form.getRawValue();
-    debugger
+
     if (this.action_type == ACTION_TYPES.NEW) {
-      this.customerService.create(formData).subscribe({
+      this.service.create(formData).subscribe({
         next: (res: CustomerModel): void => {
           this.snackbarService.success('Customer created successfully');
           this.dialogRef.close(res);
@@ -109,7 +112,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.customerService.update(formData).subscribe({
+      this.service.update(formData).subscribe({
         next: (res: CustomerModel): void => {
           this.snackbarService.success('Customer updated successfully');
           this.dialogRef.close(res);
