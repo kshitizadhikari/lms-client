@@ -48,7 +48,12 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       firstName: [this.customer?.firstName || '', [Validators.required]],
       lastName: [this.customer?.lastName || '', [Validators.required]],
       email: [this.customer?.email || '', [Validators.required, Validators.email]],
-      phone: [this.customer?.phone || '', [Validators.required]]
+      phone: [this.customer?.phone || '', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10),
+        Validators.pattern(/^[0-9]+$/),
+      ]]
     });
 
     if (this.action_type == this.ACTION_TYPES.EDIT) {

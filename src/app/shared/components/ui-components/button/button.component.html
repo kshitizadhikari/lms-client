@@ -1,6 +1,16 @@
 <button
-  class="flex items-center rounded-md bg-slate-800 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-  type="button">
-  <mat-icon class="me-3" fontIcon="{{icon}}"></mat-icon>
+  class="h-full flex items-center text-white rounded-md  transition-all shadow-sm hover:shadow-lg focus:shadow-none active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+  [ngClass]="{
+    'bg-slate-600 py-2 px-4 border border-transparent text-center text-sm': text && icon,
+    'bg-blue-300': !text
+  }"
+  (click)="handleClick()"
+  type="{{type}}"
+>
+  <mat-icon
+    [ngClass]="{
+    'me-3': text && icon,
+    }"
+    [class.me-3]="text" [fontIcon]="icon"></mat-icon>
   {{ text }}
 </button>

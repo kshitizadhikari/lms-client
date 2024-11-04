@@ -9,6 +9,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {SnackbarService} from "../../../../shared/services/snackbar.service";
 import {JsonPipe} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-customer-list',
@@ -26,14 +27,15 @@ import {JsonPipe} from "@angular/common";
 export class CustomerListComponent implements OnInit, OnDestroy {
 
   private sub: Subscription = new Subscription();
-  displayedColumns: string[] = ['firstname', 'lastname', 'email', 'phone', 'action'];
+  displayedColumns: string[] = ['sn', 'firstname', 'lastname', 'email', 'phone', 'action'];
   clickedRows = new Set<CustomerModel>();
   customers: CustomerModel[] = [];
   ACTION_TYPES = ACTION_TYPES;
 
   constructor(
     protected service: CustomerService,
-    protected snackbarService: SnackbarService
+    protected snackbarService: SnackbarService,
+    protected router: Router
   ) {
   }
 
@@ -80,15 +82,34 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (action_type == ACTION_TYPES.NEW) {
+          if (customer) {
+            this.sub.add(
+              this.service.create(result).subscribe({
+                next: (res) => {
+                  this.customers = [...this.customers, res];
+                }
+              })
+            );
+          }
           this.customers = [...this.customers, result];
         } else if (action_type == ACTION_TYPES.EDIT) {
-          const index = this.customers.findIndex(c => c.id === result.id);
-          if (index !== -1) {
-            Object.assign(this.customers[index], result);
-          }
+          this.sub.add(
+            this.service.update(result).subscribe({
+              next: (res) => {
+                const index = this.customers.findIndex(c => c.id === result.id);
+                if (index !== -1) {
+                  Object.assign(this.customers[index], result);
+                }
+              }
+            })
+          );
         }
       }
     });
+  }
+
+  viewCustomerDetails(customer: CustomerModel) {
+    return this.router.navigate(['customer/customer-detail'], {state: {customer: customer}});
   }
 
   ngOnDestroy(): void {

@@ -23,6 +23,4 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit() {
   }
-
-
 }

@@ -4,6 +4,9 @@ import {LunchDetailComponent} from "./components/features/lunch-detail/lunch-det
 import {PersonComponent} from "./components/features/person/person.component";
 import {DashboardComponent} from "./components/features/dashboard/dashboard.component";
 import {CustomerComponent} from "./components/features/customer/customer.component";
+import {
+  CustomerDetailComponent
+} from "./components/features/customer/customer-list/customer-detail/customer-detail.component";
 
 export const routes: Routes = [
   {
@@ -27,9 +30,12 @@ export const routes: Routes = [
     component: CustomerComponent
   },
   {
+    path: 'customer/customer-detail',
+    component: CustomerDetailComponent
+  },
+  {
     path: '**',
     redirectTo: '',
     pathMatch: 'full'
   },
-
 ];
