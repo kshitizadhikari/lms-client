@@ -11,7 +11,7 @@ import {
 })
 export class CustomerService extends HttpService<CustomerModel> {
 
-  private dialogService = inject(MatDialog);
+  private dialog = inject(MatDialog);
 
   constructor() {
     super();
@@ -19,7 +19,7 @@ export class CustomerService extends HttpService<CustomerModel> {
   }
 
   openCustomerForm(action_type: any, customerData?: CustomerModel): MatDialogRef<CustomerFormComponent> {
-    return this.dialogService.open(CustomerFormComponent, {
+    return this.dialog.open(CustomerFormComponent, {
       minWidth: '600px',
       data: {
         action_type: action_type,

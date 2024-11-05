@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ButtonComponent} from "../../../../shared/components/ui-components/button/button.component";
 import {CustomerService} from "../../../../services/customer.service";
-import {ACTION_TYPES} from "../../../../shared/utilities/constants";
 import {Subscription} from "rxjs";
 import {CustomerModel} from "../../../../models/customer.model";
 import {MatTableModule} from "@angular/material/table";
@@ -10,6 +9,7 @@ import {MatButton} from "@angular/material/button";
 import {SnackbarService} from "../../../../shared/services/snackbar.service";
 import {JsonPipe} from "@angular/common";
 import {Router} from "@angular/router";
+import {ActionType} from "../../../../models/enum";
 
 @Component({
   selector: 'app-customer-list',
@@ -25,12 +25,11 @@ import {Router} from "@angular/router";
   styleUrl: './customer-list.component.css'
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
-
+  protected readonly ActionType = ActionType;
   private sub: Subscription = new Subscription();
   displayedColumns: string[] = ['sn', 'firstname', 'lastname', 'email', 'phone', 'action'];
   clickedRows = new Set<CustomerModel>();
   customers: CustomerModel[] = [];
-  ACTION_TYPES = ACTION_TYPES;
 
   constructor(
     protected service: CustomerService,
@@ -81,7 +80,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     const dialogRef = this.service.openCustomerForm(action_type, customer);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if (action_type == ACTION_TYPES.NEW) {
+        if (action_type == ActionType.NEW) {
           if (customer) {
             this.sub.add(
               this.service.create(result).subscribe({
@@ -92,13 +91,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
             );
           }
           this.customers = [...this.customers, result];
-        } else if (action_type == ACTION_TYPES.EDIT) {
+        } else if (action_type == ActionType.EDIT) {
           this.sub.add(
             this.service.update(result).subscribe({
               next: (res) => {
                 const index = this.customers.findIndex(c => c.id === result.id);
                 if (index !== -1) {
-                  Object.assign(this.customers[index], result);
+                  Object.assign(this.customers[index], res);
                 }
               }
             })
@@ -115,4 +114,5 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.sub.unsubscribe();
   }
+
 }

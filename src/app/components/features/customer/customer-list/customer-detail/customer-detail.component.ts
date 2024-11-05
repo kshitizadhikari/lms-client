@@ -20,7 +20,6 @@ export class CustomerDetailComponent implements OnInit{
 
   ngOnInit() {
     this.customer = history.state.customer;
-    console.log(this.customer)
   }
 
   goToCustomerListComponent() {

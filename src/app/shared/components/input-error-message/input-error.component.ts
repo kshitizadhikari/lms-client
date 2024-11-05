@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input,OnInit} from '@angular/core';
 import {CommonModule, NgClass, NgIf} from "@angular/common";
 import {AbstractControl} from "@angular/forms";
 
@@ -16,10 +16,10 @@ import {AbstractControl} from "@angular/forms";
 export class InputErrorComponent implements OnInit{
  @Input() ctrl: AbstractControl | undefined | null;
  @Input() name = '';
- @Input() min = 0;
- @Input() max = 0;
- @Input() minLength = 0;
- @Input() maxLength = 0;
+ @Input() min: number = 0;
+ @Input() max: number = 0;
+ @Input() minLength: number = 0;
+ @Input() maxLength: number = 0;
  @Input() errMsg = '';
  @Input() lessThan = 0;
  @Input() greaterThan = 0;

@@ -1,14 +1,15 @@
-import {Component, EventEmitter, Inject, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {InputErrorComponent} from "../../../../../shared/components/input-error-message/input-error.component";
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {UtilService} from "../../../../../shared/services/util.service";
 import {SnackbarService} from "../../../../../shared/services/snackbar.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ACTION_TYPES} from '../../../../../shared/utilities/constants';
 import {CustomerService} from "../../../../../services/customer.service";
 import {CustomerModel} from "../../../../../models/customer.model";
 import {NgClass} from "@angular/common";
+import {ActionType} from "../../../../../models/enum";
+import {APP_CONSTANTS} from "../../../../../shared/utilities/constants";
 
 @Component({
   selector: 'app-customer-form',
@@ -23,15 +24,11 @@ import {NgClass} from "@angular/common";
 })
 export class CustomerFormComponent implements OnInit, OnDestroy {
 
-  @Output() customerEmitter = new EventEmitter();
-
   public sub: Subscription = new Subscription();
-  protected readonly ACTION_TYPES = ACTION_TYPES;
   public action_type: string;
   public customer: CustomerModel = {} as CustomerModel;
   public form!: FormGroup;
   public buttonText: string = 'Add';
-
   constructor(
     private fb: FormBuilder,
     private utilService: UtilService,
@@ -50,23 +47,26 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
       email: [this.customer?.email || '', [Validators.required, Validators.email]],
       phone: [this.customer?.phone || '', [
         Validators.required,
+        Validators.pattern(APP_CONSTANTS.Regex.PositiveNumbers),
         Validators.minLength(10),
         Validators.maxLength(10),
-        Validators.pattern(/^[0-9]+$/),
       ]]
     });
 
-    if (this.action_type == this.ACTION_TYPES.EDIT) {
+    if (this.action_type == ActionType.EDIT) {
       this.buttonText = 'Update';
     }
   }
 
   ngOnInit(): void {
-    console.log(this.customer)
   }
 
   getFormControl(ctrlName: string): AbstractControl {
     return this.form.controls[ctrlName];
+  }
+
+  getErrorClass(ctrl: AbstractControl): string {
+    return this.utilService.getErrorClass(ctrl);
   }
 
   getIdCtrl(): AbstractControl {
@@ -93,9 +93,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
     this.form.reset();
   }
 
-  getErrorClass(ctrl: AbstractControl): string {
-    return this.utilService.getErrorClass(ctrl);
-  }
+
 
   handleSubmit(): void {
     if (this.form.invalid) {
@@ -106,7 +104,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
 
     const formData = this.form.getRawValue();
 
-    if (this.action_type == ACTION_TYPES.NEW) {
+    if (this.action_type == ActionType.NEW) {
       this.service.create(formData).subscribe({
         next: (res: CustomerModel): void => {
           this.snackbarService.success('Customer created successfully');

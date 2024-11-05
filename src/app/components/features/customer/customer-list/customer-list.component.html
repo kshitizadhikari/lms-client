@@ -7,7 +7,7 @@
   <div class="p-2">
     <app-button
       icon="add"
-      (click)="openCustomerForm(ACTION_TYPES.NEW)"
+      (click)="openCustomerForm(ActionType.NEW)"
       text="Add Customer">
     </app-button>
   </div>
@@ -56,7 +56,7 @@
         </app-button>
         <app-button
           icon="edit"
-          (buttonClick)="openCustomerForm(ACTION_TYPES.EDIT, customer)"
+          (buttonClick)="openCustomerForm(ActionType.EDIT, customer)"
         ></app-button>
         <app-button
           icon="delete"

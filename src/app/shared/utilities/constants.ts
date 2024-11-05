@@ -1,1 +1,5 @@
-export const ACTION_TYPES = {NEW: "new", EDIT: "edit", DELETE: "delete"}
+export const APP_CONSTANTS = {
+  Regex: {
+    PositiveNumbers: '^[0-9]*\\.?[0-9]+$'
+  }
+};
