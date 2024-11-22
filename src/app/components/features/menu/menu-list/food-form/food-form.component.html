@@ -1,0 +1,72 @@
+<form class="bg-white shadow-md rounded p-10"
+      [formGroup]="form"
+      (ngSubmit)="handleSubmit()"
+>
+  <div>
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+      Food Name
+    </label>
+    <input
+      formControlName="name"
+      id="name"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      [ngClass]="getErrorClass(getNameCtrl())"
+      type="text"
+      placeholder="Food Name">
+    <div class="h-6 mt-1">
+      <app-input-error
+        [ctrl]="getNameCtrl()"
+        name="Food Name">
+      </app-input-error>
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
+      Price
+    </label>
+    <input
+      formControlName="price"
+      id="price"
+      class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      [ngClass]="getErrorClass(getPriceCtrl())"
+      type="number"
+      placeholder="Price">
+    <div class="h-6 mt-1">
+      <app-input-error
+        [ctrl]="getPriceCtrl()"
+        name="Price">
+      </app-input-error>
+    </div>
+  </div>
+
+  <div>
+    <label class="block text-gray-700 text-sm font-bold mb-2" for="type">
+      Food Type
+    </label>
+    <select id="type" formControlName="type">
+      <option value="" disabled>Choose option</option>
+      <option *ngFor="let type of foodTypes" [value]="type">{{ type }}</option>
+    </select>
+    <div class="h-6 mt-1">
+      <app-input-error
+        [ctrl]="getTypeCtrl()"
+        name="Food Type">
+      </app-input-error>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-center gap-2">
+    <button
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      type="submit">
+      {{ buttonText }}
+    </button>
+    <button
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      (click)="resetForm()"
+      type="reset">
+      Clear
+    </button>
+  </div>
+</form>

@@ -90,7 +90,6 @@ export class CustomerListComponent implements OnInit, OnDestroy {
               })
             );
           }
-          this.customers = [...this.customers, result];
         } else if (action_type == ActionType.EDIT) {
           this.sub.add(
             this.service.update(result).subscribe({

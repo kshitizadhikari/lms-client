@@ -1,0 +1,67 @@
+<div class="flex justify-between">
+  <div class="p-2">
+    <input
+      class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+      type="text" placeholder="Enter menu name...">
+  </div>
+  <div class="p-2">
+    <app-button
+      icon="add"
+      (click)="openFoodForm(ActionType.NEW)"
+      text="Add Food">
+    </app-button>
+  </div>
+</div>
+
+<div class="mt-5">
+  <h5>Food List</h5>
+  <table mat-table [dataSource]="foods" class="mat-elevation-z8 table">
+
+    <ng-container matColumnDef="sn">
+      <th mat-header-cell *matHeaderCellDef> S.N </th>
+      <td mat-cell *matCellDef="let food; let i = index">{{ i + 1 }}</td>
+    </ng-container>
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let food">{{ food.name }}</td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef>Price</th>
+      <td mat-cell *matCellDef="let food">{{ food.price }}</td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef>Type</th>
+      <td mat-cell *matCellDef="let food">{{ food.type }}</td>
+    </ng-container>
+
+    <!-- Action Column -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let food">
+        <app-button
+          icon="edit"
+          (buttonClick)="openFoodForm(ActionType.EDIT, food)"
+        ></app-button>
+        <app-button
+          icon="delete"
+          (buttonClick)="deleteFood(food.id)"
+        ></app-button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr
+      mat-row
+      (click)="toggleClickedRow(row)"
+      [class.row-is-clicked]="clickedRows.has(row)"
+      *matRowDef="let row; columns: displayedColumns;">
+    </tr>
+  </table>
+</div>
