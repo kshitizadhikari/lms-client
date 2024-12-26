@@ -76,31 +76,18 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   // handle form
-  openCustomerForm(action_type: string, customer?: CustomerModel) {
+  openCustomerForm (action_type: string, customer?: CustomerModel): void {
     const dialogRef = this.service.openCustomerForm(action_type, customer);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (action_type == ActionType.NEW) {
-          if (customer) {
-            this.sub.add(
-              this.service.create(result).subscribe({
-                next: (res) => {
-                  this.customers = [...this.customers, res];
-                }
-              })
-            );
+          this.customers = [...this.customers, result];
+        }
+        else if (action_type == ActionType.EDIT) {
+          const index = this.customers.findIndex(x => x.id == result.id);
+          if (index !== -1) {
+            Object.assign(this.customers[index], result);
           }
-        } else if (action_type == ActionType.EDIT) {
-          this.sub.add(
-            this.service.update(result).subscribe({
-              next: (res) => {
-                const index = this.customers.findIndex(c => c.id === result.id);
-                if (index !== -1) {
-                  Object.assign(this.customers[index], res);
-                }
-              }
-            })
-          );
         }
       }
     });
