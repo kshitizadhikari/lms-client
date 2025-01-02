@@ -1,29 +1,30 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {InputErrorComponent} from "../../../../../shared/components/input-error-message/input-error.component";
+import {NgClass, NgForOf} from "@angular/common";
 import {Subscription} from "rxjs";
-import {FoodService} from "../../../../../services/food.service";
-import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {ActionType, FoodType} from "../../../../../models/enum";
 import {FoodModel} from "../../../../../models/food.model";
+import {FoodService} from "../../../../../services/food.service";
 import {UtilService} from "../../../../../shared/services/util.service";
 import {SnackbarService} from "../../../../../shared/services/snackbar.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {ActionType, FoodType} from "../../../../../models/enum";
-import {InputErrorComponent} from "../../../../../shared/components/input-error-message/input-error.component";
-import {NgClass, NgForOf} from "@angular/common";
 import {APP_CONSTANTS} from "../../../../../shared/utilities/constants";
 
 @Component({
   selector: 'app-food-form',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
+    FormsModule,
     InputErrorComponent,
-    NgClass,
-    NgForOf
+    NgForOf,
+    ReactiveFormsModule,
+    NgClass
   ],
   templateUrl: './food-form.component.html',
   styleUrl: './food-form.component.css'
 })
-export class FoodFormComponent implements OnInit, OnDestroy{
+export class FoodFormComponent implements OnInit, OnDestroy {
   private sub: Subscription = new Subscription();
   protected readonly foodTypes = Object.values(FoodType);
 
@@ -37,7 +38,7 @@ export class FoodFormComponent implements OnInit, OnDestroy{
     private foodService: FoodService,
     private utilService: UtilService,
     private snackbarService: SnackbarService,
-    @Inject(MAT_DIALOG_DATA) public data: { action_type: string, food: FoodModel},
+    @Inject(MAT_DIALOG_DATA) public data: { action_type: string, food: FoodModel },
     private dialogRef: MatDialogRef<FoodModel>) {
     this.action_type = data.action_type;
     this.food = data.food || {} as FoodModel;

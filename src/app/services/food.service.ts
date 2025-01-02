@@ -2,12 +2,12 @@ import {inject, Injectable} from '@angular/core';
 import {HttpService} from "./http.service";
 import {FoodModel} from "../models/food.model";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {FoodFormComponent} from "../components/features/menu/menu-list/food-form/food-form.component";
+import {FoodFormComponent} from "../components/features/food/food-list/food-form/food-form.component";
 
 @Injectable({
   providedIn: 'root'
 })
-export class FoodService extends HttpService<FoodModel>{
+export class FoodService extends HttpService<FoodModel> {
 
   private dialog = inject(MatDialog);
 

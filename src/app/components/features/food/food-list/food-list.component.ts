@@ -1,22 +1,25 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ButtonComponent} from "../../../../shared/components/ui-components/button/button.component";
-import {FoodService} from "../../../../services/food.service";
-import {ActionType} from "../../../../models/enum";
 import {Subscription} from "rxjs";
 import {FoodModel} from "../../../../models/food.model";
+import {FoodService} from "../../../../services/food.service";
 import {SnackbarService} from "../../../../shared/services/snackbar.service";
+import {ActionType} from "../../../../models/enum";
+import {ButtonComponent} from "../../../../shared/components/ui-components/button/button.component";
 import {
   MatCell,
   MatCellDef,
   MatColumnDef,
-  MatHeaderCell, MatHeaderCellDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
   MatHeaderRow,
   MatHeaderRowDef,
-  MatRow, MatRowDef, MatTable
+  MatRow,
+  MatRowDef,
+  MatTable
 } from "@angular/material/table";
 
 @Component({
-  selector: 'app-menu-list',
+  selector: 'app-food-list',
   standalone: true,
   imports: [
     ButtonComponent,
@@ -31,10 +34,10 @@ import {
     MatTable,
     MatHeaderCellDef
   ],
-  templateUrl: './menu-list.component.html',
-  styleUrl: './menu-list.component.css'
+  templateUrl: './food-list.component.html',
+  styleUrl: './food-list.component.css'
 })
-export class MenuListComponent implements OnInit, OnDestroy {
+export class FoodListComponent implements OnInit, OnDestroy {
   protected readonly ActionType = ActionType;
   private sub: Subscription = new Subscription();
   displayedColumns: string[] = ['sn', 'name', 'price', 'type', 'action'];

@@ -48,20 +48,26 @@
 
     <!-- Action Column -->
     <ng-container matColumnDef="action">
-      <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td mat-cell *matCellDef="let customer">
-        <app-button
-          icon="visibility"
-          (buttonClick)="viewCustomerDetails(customer)">
-        </app-button>
-        <app-button
-          icon="edit"
-          (buttonClick)="openCustomerForm(ActionType.EDIT, customer)"
-        ></app-button>
-        <app-button
-          icon="delete"
-          (buttonClick)="deleteCustomer(customer.id)"
-        ></app-button>
+      <th mat-header-cell *matHeaderCellDef class="text-center">
+        <div class="text-center">
+          Action
+        </div>
+      </th>
+      <td mat-cell *matCellDef="let customer" class="text-center">
+       <div class="flex justify-center space-x-2">
+         <app-button
+           icon="visibility"
+           (buttonClick)="viewCustomerDetails(customer)">
+         </app-button>
+         <app-button
+           icon="edit"
+           (buttonClick)="openCustomerForm(ActionType.EDIT, customer)"
+         ></app-button>
+         <app-button
+           icon="delete"
+           (buttonClick)="deleteCustomer(customer.id)"
+         ></app-button>
+       </div>
       </td>
     </ng-container>
 
