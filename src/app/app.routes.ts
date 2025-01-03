@@ -7,6 +7,7 @@ import {
   CustomerDetailComponent
 } from "./components/features/customer/customer-list/customer-detail/customer-detail.component";
 import {FoodComponent} from "./components/features/food/food.component";
+import {MenuComponent} from "./components/features/menu/menu.component";
 
 export const routes: Routes = [
   {
@@ -32,6 +33,10 @@ export const routes: Routes = [
   {
     path: 'food',
     component: FoodComponent
+  },
+  {
+    path: 'menu',
+    component: MenuComponent
   },
   {
     path: '**',

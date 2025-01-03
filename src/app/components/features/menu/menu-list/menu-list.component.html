@@ -1,0 +1,61 @@
+<div class="p-2">
+  <h3>Menu Planner</h3>
+  <div>
+    <mat-form-field>
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate
+               placeholder="Start date"
+               [(ngModel)]="startDate">
+        <input matEndDate
+               placeholder="End date"
+               [(ngModel)]="endDate"
+               (dateChange)="getWeek()">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+  </div>
+  <div class="flex-col">
+    <div class="flex-1 mb-3" *ngFor="let day of days">
+      <mat-accordion>
+        <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{ day.day }}</mat-panel-title>
+            <mat-panel-description>
+              {{ day.date }}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <form [formGroup]="foodForm" (ngSubmit)="onSubmit()">
+            <div class="form-control">
+              <div class="form-control">
+                <input type="date" formControlName="date" value="{{ day.date }}">
+              </div>
+              <div formGroupName="foodSelections">
+                <div *ngFor="let food of foods">
+                  <label>
+                    <input type="checkbox" [formControlName]="food.id"/>
+                    {{ food.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-end gap-2">
+              <button
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="reset">
+                Cancel
+              </button>
+              <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit">
+                Save Changes
+              </button>
+            </div>
+          </form>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>

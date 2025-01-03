@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
 import {HeaderComponent} from "./components/features/header/header.component";
 import {FooterComponent} from "./components/features/footer/footer.component";
 
@@ -9,6 +9,7 @@ import {FooterComponent} from "./components/features/footer/footer.component";
   imports: [RouterOutlet,
     HeaderComponent,
     FooterComponent],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
