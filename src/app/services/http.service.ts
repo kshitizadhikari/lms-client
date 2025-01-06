@@ -8,13 +8,13 @@ import {Observable} from "rxjs";
 })
 export class HttpService<T> {
   private apiUrl = environment.apiUrl;
-  private http = inject(HttpClient);
+  protected http = inject(HttpClient);
   private endpoint: string = '';
-  constructor(
-  ) {
+
+  constructor() {
   }
 
-  private get url(): string {
+  protected get url(): string {
     return `${this.apiUrl}/${this.endpoint}`;
   }
 

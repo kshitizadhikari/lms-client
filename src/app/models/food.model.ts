@@ -1,8 +1,8 @@
 import {FoodType} from "./enum";
 
-export interface FoodModel  {
+export interface FoodModel {
   id: string;
   name: string;
   price: number;
-  type: FoodType;
+  foodType: FoodType;
 }

@@ -3,7 +3,8 @@ import {FoodModel} from "./food.model";
 export interface MenuModel {
   id: string;
   name: string;
-  menuItems?: MenuModel[];
+  date: Date;
+  menuItems?: MenuItemModel[];
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -16,4 +17,10 @@ export interface MenuItemModel {
   food?: FoodModel;
   createdAt: Date;
   updatedAt: Date;
+}
+
+export interface CreateMenuModel {
+  name: string;
+  date: Date;
+  foodIds: string[];
 }

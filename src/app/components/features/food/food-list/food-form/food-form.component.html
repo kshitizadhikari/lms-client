@@ -44,7 +44,7 @@
     <label class="block text-gray-700 text-sm font-bold mb-2" for="type">
       Food Type
     </label>
-    <select id="type" formControlName="type">
+    <select id="type" formControlName="foodType">
       <option value="" disabled>Choose option</option>
       <option *ngFor="let type of foodTypes" [value]="type">{{ type }}</option>
     </select>
@@ -59,7 +59,7 @@
   <div class="flex items-center justify-center gap-2">
     <button
       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      type="button">
+      type="submit">
       {{ buttonText }}
     </button>
     <button

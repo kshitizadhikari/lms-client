@@ -8,7 +8,8 @@ import {NgForOf} from "@angular/common";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {FoodService} from "../../../../../services/food.service";
-import {MenuParamModel} from "../../../../../models/params/menu-param.model";
+import {CreateMenuModel} from "../../../../../models/menu.model";
+import {MenuService} from "../../../../../services/menu.service";
 
 @Component({
   selector: 'app-menu-form',
@@ -30,12 +31,13 @@ export class MenuFormComponent implements OnInit, OnDestroy {
   readonly panelOpenState = signal(false);
   foodForm: FormGroup;
   foods: FoodModel[] = [];
-  menuParam: MenuParamModel = {} as MenuParamModel;
+  menu: CreateMenuModel = {} as CreateMenuModel;
 
   constructor(
     private fb: FormBuilder,
     private utilService: UtilService,
-    private foodService: FoodService
+    private foodService: FoodService,
+    private menuService: MenuService
   ) {
     this.foodForm = fb.group({
       date: [''],
@@ -76,9 +78,24 @@ export class MenuFormComponent implements OnInit, OnDestroy {
     const foodFromForm = Object.entries(formData.foodSelections);
     let selectedFoods = foodFromForm.filter(([id, selected]) => selected)
       .map(([id]) => id);
-    this.menuParam.date = this.day.date;
-    this.menuParam.foodIds = selectedFoods;
-    console.log(this.menuParam);
+    this.menu.name = this.day.day + '_' + this.day.date;
+    this.menu.date = this.day.date;
+    this.menu.foodIds = selectedFoods;
+    console.log(this.menu);
+    this.addMenu();
+  }
+
+  addMenu(): void {
+    this.sub.add(
+      this.menuService.createMenu(this.menu).subscribe({
+        next: ((res) => {
+          console.log(res);
+        }),
+        error: (err => {
+          console.log('Error creating menu \n', err);
+        })
+      })
+    );
   }
 
 

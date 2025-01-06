@@ -52,7 +52,7 @@ export class FoodFormComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.pattern(APP_CONSTANTS.Regex.PositiveNumbers)
       ]],
-      type: [this.food?.type || '', [Validators.required]]
+      foodType: [this.food?.foodType || '', [Validators.required]]
     });
 
     if (this.action_type == ActionType.EDIT) {
@@ -93,7 +93,6 @@ export class FoodFormComponent implements OnInit, OnDestroy {
     }
 
     const formData = this.form.getRawValue();
-
     if (this.action_type == ActionType.NEW) {
       this.sub.add(
         this.foodService.create(formData).subscribe({

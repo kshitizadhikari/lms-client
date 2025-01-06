@@ -1,4 +1,5 @@
 export interface MenuParamModel {
-  date: string;
+  name: string;
+  date: Date;
   foodIds: string[];
 }
