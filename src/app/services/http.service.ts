@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {environment} from "../../environments/environment.development";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -36,6 +36,17 @@ export class HttpService<T> {
 
   delete(id: string): Observable<T> {
     return this.http.delete<T>(`${this.url}/${id}`);
+  }
+
+  convertToHttpParams(options: any): HttpParams {
+    let httpParams = new HttpParams();
+    for (const key in options) {
+      if (options.hasOwnProperty(key)) {
+        const value = options[key];
+        httpParams = httpParams.append(key, value.toString());
+      }
+    }
+    return httpParams;
   }
 
   setEndPoint(endpoint: string): void {
