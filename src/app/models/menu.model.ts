@@ -24,3 +24,7 @@ export interface CreateMenuModel {
   date: Date;
   foodIds: string[];
 }
+
+export interface MenuQueryParameter {
+  includeMenuItems: boolean;
+}

@@ -7,6 +7,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import moment from "moment";
 import {MenuFormComponent} from "./menu-form/menu-form.component";
 import {FormsModule} from "@angular/forms";
+import {MenuModel, MenuQueryParameter} from "../../../../models/menu.model";
+import {MenuService} from "../../../../services/menu.service";
 
 @Component({
   selector: 'app-menu-list',
@@ -29,11 +31,19 @@ export class MenuListComponent implements OnInit, OnDestroy {
   endDate = '';
   numberOfDays: number = 0;
   days: any[] = [];
+  weeksMenu: MenuModel[] = [];
+  menuParam: MenuQueryParameter;
 
-  constructor() {
+  constructor(
+    private menuService: MenuService
+  ) {
+    this.menuParam = {
+      includeMenuItems: false
+    };
   }
 
   ngOnInit(): void {
+
   }
 
   getWeek() {
@@ -49,6 +59,29 @@ export class MenuListComponent implements OnInit, OnDestroy {
       });
       currentDate.add(1, 'days');
     }
+    this.getWeeksMenu();
+  }
+
+  getWeeksMenu() {
+    this.weeksMenu = [];
+    // this.menuService.getAll().subscribe({
+    //   next: ((res) => {
+    //     this.weeksMenu = res;
+    //     console.log(this.weeksMenu);
+    //   }),
+    //   error: (err => {
+    //     console.log('Error fetching menu for the selected date range\n', err);
+    //   })
+    // });
+    this.menuParam.includeMenuItems = true;
+    this.menuService.getAllInclude(this.menuParam).subscribe({
+      next: ((res) => {
+
+      }),
+      error: ((err) => {
+        console.log('Error fetching menu');
+      })
+    });
   }
 
   ngOnDestroy(): void {

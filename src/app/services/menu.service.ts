@@ -17,4 +17,13 @@ export class MenuService extends HttpService<MenuModel> {
     return this.http.post<MenuModel>(this.url, menu);
   }
 
+  getMenuForDateRange(startDate: string, endDate: string) {
+
+  }
+
+  getAllInclude(...options: any[]): Observable<MenuModel[]> {
+    const params = this.convertToHttpParams(options);
+    console.log(params);
+    return this.http.get<MenuModel[]>(`${this.url}/GetAllInclude`, {params});
+  }
 }
