@@ -18,8 +18,9 @@ export class HttpService<T> {
     return `${this.apiUrl}/${this.endpoint}`;
   }
 
-  getAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.url);
+  getAll(...options: any[]): Observable<T[]> {
+    const params = this.convertToHttpParams(...options);
+    return this.http.get<T[]>(`${this.url}`, {params});
   }
 
   getById(id: string): Observable<T> {
@@ -38,12 +39,17 @@ export class HttpService<T> {
     return this.http.delete<T>(`${this.url}/${id}`);
   }
 
-  convertToHttpParams(options: any): HttpParams {
+  convertToHttpParams(...options: any[]): HttpParams {
     let httpParams = new HttpParams();
-    for (const key in options) {
-      if (options.hasOwnProperty(key)) {
-        const value = options[key];
-        httpParams = httpParams.append(key, value.toString());
+    for (const option of options) {
+      for (const key in option) {
+        if (option.hasOwnProperty(key)) {
+          const value = option[key];
+          let stringValue = value.toString();
+          if (stringValue !== undefined && stringValue !== null) {
+            httpParams = httpParams.append(key, stringValue);
+          }
+        }
       }
     }
     return httpParams;
