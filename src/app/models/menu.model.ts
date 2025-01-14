@@ -12,7 +12,6 @@ export interface MenuModel {
 export interface MenuItemModel {
   id: string;
   menuId: string;
-  menu?: MenuModel;
   foodId: string;
   food?: FoodModel;
   createdAt: Date;
