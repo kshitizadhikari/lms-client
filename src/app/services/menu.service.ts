@@ -21,9 +21,8 @@ export class MenuService extends HttpService<MenuModel> {
 
   }
 
-  getAllInclude(...options: any[]): Observable<MenuModel[]> {
-    const params = this.convertToHttpParams(options);
-    console.log(params);
-    return this.http.get<MenuModel[]>(`${this.url}/GetAllInclude`, {params});
-  }
+  // getAllInclude(...options: any[]): Observable<MenuModel[]> {
+  //   const params = this.convertToHttpParams(...options);
+  //   return this.http.get<MenuModel[]>(`${this.url}/GetAllInclude`, {params});
+  // }
 }
