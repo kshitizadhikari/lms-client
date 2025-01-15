@@ -1,0 +1,10 @@
+<div class="p-2">
+  <h3>Menu Planner</h3>
+  <app-menu-date-range
+    (outputDateEvent)="getDateFromDatePicker($event)"></app-menu-date-range>
+  <div class="flex-col">
+    <div class="flex-1 mb-3" *ngFor="let day of days">
+      <app-menu-form [day]="day"></app-menu-form>
+    </div>
+  </div>
+</div>
