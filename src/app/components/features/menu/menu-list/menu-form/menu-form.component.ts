@@ -4,12 +4,14 @@ import {Subscription} from "rxjs";
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {UtilService} from "../../../../../shared/services/util.service";
 import {MatExpansionModule} from "@angular/material/expansion";
-import {NgForOf} from "@angular/common";
+import {DatePipe, NgForOf} from "@angular/common";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {FoodService} from "../../../../../services/food.service";
 import {CreateMenuModel} from "../../../../../models/menu.model";
 import {MenuService} from "../../../../../services/menu.service";
+import {CustomDate} from "../../../../../models/date-range.model";
+import {APP_CONSTANTS} from "../../../../../shared/utilities/constants";
 
 @Component({
   selector: 'app-menu-form',
@@ -20,13 +22,16 @@ import {MenuService} from "../../../../../services/menu.service";
     MatFormFieldModule,
     MatExpansionModule,
     ReactiveFormsModule,
-    NgForOf
+    NgForOf,
+    DatePipe
   ],
   templateUrl: './menu-form.component.html',
   styleUrl: './menu-form.component.css'
 })
 export class MenuFormComponent implements OnInit, OnDestroy {
-  @Input() day: any;
+  @Input() date: CustomDate = {} as CustomDate;
+
+  DATE_FORMAT = APP_CONSTANTS.DateFormat;
   private sub: Subscription = new Subscription();
   readonly panelOpenState = signal(false);
   foodForm: FormGroup;
@@ -78,8 +83,8 @@ export class MenuFormComponent implements OnInit, OnDestroy {
     const foodFromForm = Object.entries(formData.foodSelections);
     let selectedFoods = foodFromForm.filter(([id, selected]) => selected)
       .map(([id]) => id);
-    this.menu.name = this.day.day + '_' + this.day.date;
-    this.menu.date = this.day.date;
+    this.menu.name = this.date.day + '_' + this.date.date;
+    this.menu.date = this.date.date;
     this.menu.foodIds = selectedFoods;
     console.log(this.menu);
     this.addMenu();
