@@ -1,6 +1,11 @@
 export type DateRangeModel = {
-  startDate: string;
-  endDate: string,
+  startDate: Date;
+  endDate: Date,
   numberOfDays: number,
-  days: string[]
+  days: CustomDate[]
+}
+
+export type CustomDate = {
+  day: string;
+  date: Date;
 }
