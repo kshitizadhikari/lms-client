@@ -14,7 +14,6 @@ import {Subscription} from "rxjs";
 import {MenuModel} from "../../../../models/menu.model";
 import {IncludeQPModel} from "../../../../models/params/include-qp.model";
 import {MenuService} from "../../../../services/menu.service";
-import moment from "moment";
 import {MenuDateRangeComponent} from "./menu-date-range/menu-date-range.component";
 import {DateRangeModel} from "../../../../models/date-range.model";
 
@@ -40,11 +39,8 @@ import {DateRangeModel} from "../../../../models/date-range.model";
 })
 export class MenuPlannerComponent implements OnInit, OnDestroy {
   private sub: Subscription = new Subscription();
-  startDate = '';
-  endDate = '';
-  numberOfDays: number = 0;
-  days: any[] = [];
-  weeksMenu: MenuModel[] = [];
+  dateRangeObj: DateRangeModel = {} as DateRangeModel;
+  menu: MenuModel[] = [];
   includeQP: IncludeQPModel;
 
   constructor(
@@ -59,34 +55,9 @@ export class MenuPlannerComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
-  getWeek() {
-    this.days = [];
-    const start = moment(this.startDate);
-    const end = moment(this.endDate);
-    this.numberOfDays = end.diff(start, 'days') + 1;
-    let currentDate = start.clone();
-    while (currentDate.isBefore(end) || currentDate.isSame(end)) {
-      this.days.push({
-        date: currentDate.format('YYYY-MM-DD'),
-        day: currentDate.format('dddd')
-      });
-      currentDate.add(1, 'days');
-    }
-    this.getWeeksMenu();
-  }
-
-  getWeeksMenu() {
-    this.weeksMenu = [];
-    // this.menuService.getAll().subscribe({
-    //   next: ((res) => {
-    //     this.weeksMenu = res;
-    //     console.log(this.weeksMenu);
-    //   }),
-    //   error: (err => {
-    //     console.log('Error fetching menu for the selected date range\n', err);
-    //   })
-    // });
-
+  getDateFromDatePicker($event: DateRangeModel) {
+    this.dateRangeObj = $event;
+    console.log(this.dateRangeObj);
   }
 
   ngOnDestroy(): void {
@@ -94,7 +65,5 @@ export class MenuPlannerComponent implements OnInit, OnDestroy {
 
   }
 
-  getDateFromDatePicker($event: DateRangeModel) {
-    console.log($event);
-  }
+
 }

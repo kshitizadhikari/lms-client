@@ -3,8 +3,8 @@
   <app-menu-date-range
     (outputDateEvent)="getDateFromDatePicker($event)"></app-menu-date-range>
   <div class="flex-col">
-    <div class="flex-1 mb-3" *ngFor="let day of days">
-      <app-menu-form [day]="day"></app-menu-form>
+    <div class="flex-1 mb-3" *ngFor="let item of dateRangeObj.days">
+      <app-menu-form [date]=item></app-menu-form>
     </div>
   </div>
 </div>
