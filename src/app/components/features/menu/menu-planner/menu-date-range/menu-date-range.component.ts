@@ -10,7 +10,8 @@ import {
 import {MenuFormComponent} from "../../menu-list/menu-form/menu-form.component";
 import {FormsModule} from "@angular/forms";
 import moment from "moment";
-import {DateRangeModel} from "../../../../../models/date-range.model";
+import {CustomDate, DateRangeModel} from "../../../../../models/date-range.model";
+import {SnackbarService} from "../../../../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-menu-date-range',
@@ -35,31 +36,52 @@ export class MenuDateRangeComponent {
   endDate = '';
   @Output() outputDateEvent = new EventEmitter<DateRangeModel>();
 
-  updateDate() {
+  constructor(
+    private snackbar: SnackbarService
+  ) {
+  }
 
+  updateDate() {
     if (this.endDate == '') {
       return;
     }
+
     const start = moment(this.startDate);
     const end = moment(this.endDate);
 
+    if (this.endDate) {
+      if (!start.isValid() || !end.isValid() || end.isBefore(start)) {
+        this.snackbar.error('Invalid date range.');
+        return;
+      }
+    }
+
     const numberOfDays = end.diff(start, 'days') + 1;
-    const days: string[] = [];
+
+    if (numberOfDays > 30) {
+      this.startDate = '';
+      this.endDate = '';
+      this.snackbar.error('Date range is too long.');
+      return;
+    }
+    const days: CustomDate[] = [];
 
     let currentDate = start.clone();
     while (currentDate.isBefore(end) || currentDate.isSame(end)) {
-      days.push(currentDate.format('YYYY-MM-DD'));
+      days.push({
+        date: currentDate.toDate(),
+        day: currentDate.format('dddd')
+      })
       currentDate.add(1, 'days');
     }
 
     const dateObj: DateRangeModel = {
-      startDate: start.format('YYYY-MM-DD'),
-      endDate: end.format('YYYY-MM-DD'),
+      startDate: start.toDate(),
+      endDate: end.toDate(),
       numberOfDays: numberOfDays,
       days: days,
     };
 
     this.outputDateEvent.emit(dateObj);
   }
-
 }
