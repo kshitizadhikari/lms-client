@@ -2,6 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {environment} from "../../environments/environment.development";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
+import moment from "moment";
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,12 @@ export class HttpService<T> {
       for (const key in option) {
         if (option.hasOwnProperty(key)) {
           const value = option[key];
-          let stringValue = value.toString();
+          let stringValue = '';
+          if (value instanceof Date) {
+            stringValue = moment(value).format('MM-DD-YYYY');
+          } else {
+            stringValue = value.toString();
+          }
           if (stringValue !== undefined && stringValue !== null) {
             httpParams = httpParams.append(key, stringValue);
           }
