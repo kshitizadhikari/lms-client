@@ -12,6 +12,8 @@ import {CreateMenuModel} from "../../../../../models/menu.model";
 import {MenuService} from "../../../../../services/menu.service";
 import {CustomDate} from "../../../../../models/date-range.model";
 import {APP_CONSTANTS} from "../../../../../shared/utilities/constants";
+import moment from "moment";
+import {SnackbarService} from "../../../../../shared/services/snackbar.service";
 
 @Component({
   selector: 'app-menu-form',
@@ -42,7 +44,8 @@ export class MenuFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private utilService: UtilService,
     private foodService: FoodService,
-    private menuService: MenuService
+    private menuService: MenuService,
+    private snackbar: SnackbarService
   ) {
     this.foodForm = fb.group({
       date: [''],
@@ -68,7 +71,7 @@ export class MenuFormComponent implements OnInit, OnDestroy {
           });
         },
         error: (err): void => {
-          console.log('Error fetching food:\n', err);
+          this.snackbar.error(err);
         }
       })
     )
@@ -83,10 +86,10 @@ export class MenuFormComponent implements OnInit, OnDestroy {
     const foodFromForm = Object.entries(formData.foodSelections);
     let selectedFoods = foodFromForm.filter(([id, selected]) => selected)
       .map(([id]) => id);
-    this.menu.name = this.date.day + '_' + this.date.date;
-    this.menu.date = this.date.date;
+    this.menu.name = this.date.day + '_' + moment(this.date.date).format('MM-DD-YYYY');
+    this.menu.date = new Date(moment(this.date.date).format('MM-DD-YYYY'));
     this.menu.foodIds = selectedFoods;
-    console.log(this.menu);
+    console.log(this.menu)
     this.addMenu();
   }
 
@@ -97,12 +100,11 @@ export class MenuFormComponent implements OnInit, OnDestroy {
           console.log(res);
         }),
         error: (err => {
-          console.log('Error creating menu \n', err);
+          this.snackbar.error(err);
         })
       })
     );
   }
-
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
