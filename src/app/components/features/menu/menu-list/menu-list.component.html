@@ -1,25 +1,14 @@
-<div class="p-2">
-  <h3>Menu Planner</h3>
-  <div>
-    <mat-form-field>
-      <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input [rangePicker]="picker">
-        <input matStartDate
-               placeholder="Start date"
-               [(ngModel)]="startDate">
-        <input matEndDate
-               placeholder="End date"
-               [(ngModel)]="endDate"
-               (dateChange)="getWeek()">
-      </mat-date-range-input>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-date-range-picker #picker></mat-date-range-picker>
-    </mat-form-field>
-
-  </div>
-  <div class="flex-col">
-    <div class="flex-1 mb-3" *ngFor="let day of days">
-      <app-menu-form [day]="day"></app-menu-form>
+<div class="flex flex-wrap gap-5">
+  <div class="flex-grow-1" *ngFor="let menu of menus">
+    <h5>{{ moment(menu.date).format('dddd') }}</h5>
+    <span>{{ moment(menu.date).format('MM-DD-YYYY') }}</span>
+    <div
+      *ngFor="let menuItem of menu.menuItems">
+      <div class="inline-flex gap-2">
+        <p>{{ menuItem.food?.name }}</p>
+        <span>{{ menuItem.food?.price }}</span>
+      </div>
     </div>
   </div>
+
 </div>
