@@ -5,6 +5,7 @@ import {MenuService} from "../../../../services/menu.service";
 import {IncludeQPModel} from "../../../../models/params/include-qp.model";
 import {SnackbarService} from "../../../../shared/services/snackbar.service";
 import {NgForOf} from "@angular/common";
+import {MenuFPModel} from "../../../../models/params/menu-fp.model";
 import moment from "moment";
 
 @Component({
@@ -21,15 +22,21 @@ export class MenuListComponent implements OnInit, OnDestroy {
   private sub: Subscription = new Subscription();
   menus: MenuModel[] = [];
   includeQP: IncludeQPModel;
+  filter: MenuFPModel;
 
   constructor(
     private menuService: MenuService,
     private snackbar: SnackbarService
   ) {
+
     this.includeQP = {
       menuItems: true,
       foods: true
-    }
+    };
+
+    this.filter = {
+      date: true
+    };
   }
 
   ngOnInit(): void {
@@ -38,10 +45,9 @@ export class MenuListComponent implements OnInit, OnDestroy {
 
   loadAllMenus(): void {
     this.sub.add(
-      this.menuService.getAll(this.includeQP).subscribe({
+      this.menuService.getAll(this.includeQP, this.filter).subscribe({
         next: (res) => {
           this.menus = res;
-          console.log(this.menus);
         },
         error: (err) => {
           this.snackbar.error(err);
