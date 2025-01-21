@@ -3,7 +3,6 @@ import {Subscription} from "rxjs";
 import {FoodModel} from "../../../../models/food.model";
 import {FoodService} from "../../../../services/food.service";
 import {SnackbarService} from "../../../../shared/services/snackbar.service";
-import {ActionType} from "../../../../models/enum";
 import {ButtonComponent} from "../../../../shared/components/ui-components/button/button.component";
 import {
   MatCell,
@@ -17,6 +16,7 @@ import {
   MatRowDef,
   MatTable
 } from "@angular/material/table";
+import {ActionType} from "../../../../models";
 
 @Component({
   selector: 'app-food-list',
@@ -61,7 +61,7 @@ export class FoodListComponent implements OnInit, OnDestroy {
           this.foods = res;
         },
         error: (err) => {
-          console.log('Error fetching food : ', err);
+          this.snackbarService.error(err);
         }
       })
     );
@@ -82,7 +82,7 @@ export class FoodListComponent implements OnInit, OnDestroy {
         this.foods = this.foods.filter(food => food.id !== id);
       },
       error: (err) => {
-        console.log('Error deleting food :', err);
+        this.snackbarService.error(err);
       }
     })
   }

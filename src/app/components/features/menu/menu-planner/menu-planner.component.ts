@@ -11,11 +11,10 @@ import {MatFormField, MatLabel, MatSuffix} from "@angular/material/form-field";
 import {MenuFormComponent} from "../menu-list/menu-form/menu-form.component";
 import {NgForOf} from "@angular/common";
 import {Subscription} from "rxjs";
-import {MenuModel} from "../../../../models/menu.model";
+import {DateRangeModel, MenuModel} from "../../../../models";
 import {IncludeQPModel} from "../../../../models/params/include-qp.model";
 import {MenuService} from "../../../../services/menu.service";
 import {MenuDateRangeComponent} from "./menu-date-range/menu-date-range.component";
-import {DateRangeModel} from "../../../../models/date-range.model";
 
 @Component({
   selector: 'app-menu-planner',
@@ -57,13 +56,10 @@ export class MenuPlannerComponent implements OnInit, OnDestroy {
 
   getDateFromDatePicker($event: DateRangeModel) {
     this.dateRangeObj = $event;
-    console.log(this.dateRangeObj);
   }
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
 
   }
-
-
 }

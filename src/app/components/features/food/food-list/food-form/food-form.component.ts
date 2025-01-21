@@ -3,7 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModul
 import {InputErrorComponent} from "../../../../../shared/components/input-error-message/input-error.component";
 import {NgClass, NgForOf} from "@angular/common";
 import {Subscription} from "rxjs";
-import {ActionType, FoodType} from "../../../../../models/enum";
+import {ActionType, FoodType} from "../../../../../models";
 import {FoodModel} from "../../../../../models/food.model";
 import {FoodService} from "../../../../../services/food.service";
 import {UtilService} from "../../../../../shared/services/util.service";
@@ -101,7 +101,7 @@ export class FoodFormComponent implements OnInit, OnDestroy {
             this.dialogRef.close(res);
           },
           error: (err): void => {
-            console.log('Error adding food: ', err);
+            this.snackbarService.error(err);
           }
         })
       );
@@ -112,7 +112,7 @@ export class FoodFormComponent implements OnInit, OnDestroy {
           this.dialogRef.close(res);
         },
         error: (err): void => {
-          console.log('Error updating food: ', err)
+          this.snackbarService.error(err);
         }
       })
     }

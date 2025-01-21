@@ -2,14 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ButtonComponent} from "../../../../shared/components/ui-components/button/button.component";
 import {CustomerService} from "../../../../services/customer.service";
 import {Subscription} from "rxjs";
-import {CustomerModel} from "../../../../models/customer.model";
 import {MatTableModule} from "@angular/material/table";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
 import {SnackbarService} from "../../../../shared/services/snackbar.service";
 import {JsonPipe} from "@angular/common";
 import {Router} from "@angular/router";
-import {ActionType} from "../../../../models/enum";
+import {ActionType, CustomerModel} from "../../../../models";
 
 @Component({
   selector: 'app-customer-list',
@@ -49,7 +48,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
           this.customers = res;
         },
         error: (err) => {
-          console.log('Error fetching customers : ', err);
+          this.snackbarService.error(err);
         }
       })
     );
@@ -70,20 +69,19 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         this.customers = this.customers.filter(customer => customer.id !== id);
       },
       error: (err) => {
-        console.log('Error deleting customer data :', err);
+        this.snackbarService.error(err);
       }
     })
   }
 
   // handle form
-  openCustomerForm (action_type: string, customer?: CustomerModel): void {
+  openCustomerForm(action_type: string, customer?: CustomerModel): void {
     const dialogRef = this.service.openCustomerForm(action_type, customer);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (action_type == ActionType.NEW) {
           this.customers = [...this.customers, result];
-        }
-        else if (action_type == ActionType.EDIT) {
+        } else if (action_type == ActionType.EDIT) {
           const index = this.customers.findIndex(x => x.id == result.id);
           if (index !== -1) {
             Object.assign(this.customers[index], result);

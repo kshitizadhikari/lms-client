@@ -6,9 +6,8 @@ import {UtilService} from "../../../../../shared/services/util.service";
 import {SnackbarService} from "../../../../../shared/services/snackbar.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {CustomerService} from "../../../../../services/customer.service";
-import {CustomerModel} from "../../../../../models/customer.model";
+import {ActionType, CustomerModel} from "../../../../../models";
 import {NgClass} from "@angular/common";
-import {ActionType} from "../../../../../models/enum";
 import {APP_CONSTANTS} from "../../../../../shared/utilities/constants";
 
 @Component({
@@ -29,6 +28,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   public customer: CustomerModel = {} as CustomerModel;
   public form!: FormGroup;
   public buttonText: string = 'Add';
+
   constructor(
     private fb: FormBuilder,
     private utilService: UtilService,
@@ -94,7 +94,6 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
   }
 
 
-
   handleSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -111,7 +110,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
           this.dialogRef.close(res);
         },
         error: (err): void => {
-          console.log('Error creating customer: ', err);
+          this.snackbarService.error(err);
         }
       });
     } else {
@@ -121,7 +120,7 @@ export class CustomerFormComponent implements OnInit, OnDestroy {
           this.dialogRef.close(res);
         },
         error: (err): void => {
-          console.log('Error updating customer: ', err);
+          this.snackbarService.error(err);
         }
       })
     }

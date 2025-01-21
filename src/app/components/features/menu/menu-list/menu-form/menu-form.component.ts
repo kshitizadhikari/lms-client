@@ -8,9 +8,8 @@ import {DatePipe, NgForOf} from "@angular/common";
 import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {FoodService} from "../../../../../services/food.service";
-import {CreateMenuModel} from "../../../../../models/menu.model";
+import {CreateMenuModel, CustomDate} from "../../../../../models";
 import {MenuService} from "../../../../../services/menu.service";
-import {CustomDate} from "../../../../../models/date-range.model";
 import {APP_CONSTANTS} from "../../../../../shared/utilities/constants";
 import moment from "moment";
 import {SnackbarService} from "../../../../../shared/services/snackbar.service";
@@ -89,7 +88,6 @@ export class MenuFormComponent implements OnInit, OnDestroy {
     this.menu.name = this.date.day + '_' + moment(this.date.date).format('MM-DD-YYYY');
     this.menu.date = new Date(moment(this.date.date).format('MM-DD-YYYY'));
     this.menu.foodIds = selectedFoods;
-    console.log(this.menu)
     this.addMenu();
   }
 
@@ -97,7 +95,6 @@ export class MenuFormComponent implements OnInit, OnDestroy {
     this.sub.add(
       this.menuService.createMenu(this.menu).subscribe({
         next: ((res) => {
-          console.log(res);
         }),
         error: (err => {
           this.snackbar.error(err);
