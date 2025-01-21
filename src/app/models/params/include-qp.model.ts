@@ -1,4 +1,4 @@
-export class IncludeQPModel {
+export interface IncludeQPModel {
   menuItems?: boolean;
   foods?: boolean;
 }
