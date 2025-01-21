@@ -42,24 +42,23 @@ export class HttpService<T> {
 
   convertToHttpParams(...options: any[]): HttpParams {
     let httpParams = new HttpParams();
-    for (const option of options) {
-      for (const key in option) {
-        if (option.hasOwnProperty(key)) {
-          const value = option[key];
-          let stringValue = '';
-          if (value instanceof Date) {
-            stringValue = moment(value).format('MM-DD-YYYY');
-          } else {
-            stringValue = value.toString();
-          }
-          if (stringValue !== undefined && stringValue !== null) {
+
+    options.forEach(option => {
+      if (typeof option === 'object' && option !== null) {
+        Object.entries(option).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            const stringValue = value instanceof Date
+              ? moment(value).format('MM-DD-YYYY')
+              : value.toString();
             httpParams = httpParams.append(key, stringValue);
           }
-        }
+        });
       }
-    }
+    });
+
     return httpParams;
   }
+
 
   setEndPoint(endpoint: string): void {
     this.endpoint = endpoint;
